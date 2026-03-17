@@ -1,0 +1,186 @@
+<!-- ✅ ANKIT STUDY AI ASSISTANT - READY TO USE -->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito:wght@400;600&display=swap');
+  #ankit-chat-wrapper {
+    max-width: 620px;
+    margin: 20px auto;
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  #ankit-chat-header {
+    background: linear-gradient(90deg, #4776e6, #8e54e9);
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  #ankit-chat-header .robot-icon { font-size: 34px; animation: bounce 2s infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+  #ankit-chat-header .header-text h2 { margin:0; font-family:'Poppins',sans-serif; font-size:18px; color:white; font-weight:700; }
+  #ankit-chat-header .header-text p { margin:2px 0 0; font-size:12px; color:rgba(255,255,255,0.8); }
+  #ankit-status-dot { width:10px; height:10px; background:#4ade80; border-radius:50%; display:inline-block; margin-right:5px; animation:pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  #ankit-chat-box { height:400px; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:14px; scroll-behavior:smooth; }
+  #ankit-chat-box::-webkit-scrollbar { width:5px; }
+  #ankit-chat-box::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.2); border-radius:10px; }
+  .ankit-msg { max-width:82%; padding:12px 16px; border-radius:16px; font-size:14px; line-height:1.7; animation:fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .ankit-msg.ai { background:rgba(255,255,255,0.1); color:#e2e8f0; border:1px solid rgba(255,255,255,0.15); align-self:flex-start; border-bottom-left-radius:4px; }
+  .ankit-msg.user { background:linear-gradient(135deg,#4776e6,#8e54e9); color:white; align-self:flex-end; border-bottom-right-radius:4px; }
+  .ankit-msg .msg-label { font-size:11px; font-weight:700; margin-bottom:5px; opacity:0.7; text-transform:uppercase; letter-spacing:0.5px; }
+  .typing-dots { display:flex; gap:5px; padding:4px 0; }
+  .typing-dots span { width:8px; height:8px; background:rgba(255,255,255,0.5); border-radius:50%; animation:dot-bounce 1.2s infinite; }
+  .typing-dots span:nth-child(2){animation-delay:0.2s} .typing-dots span:nth-child(3){animation-delay:0.4s}
+  @keyframes dot-bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+  #ankit-quick-btns { display:flex; flex-wrap:wrap; gap:8px; padding:0 20px 12px; }
+  .ankit-quick-btn { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#c4b5fd; padding:6px 12px; border-radius:20px; font-size:12px; cursor:pointer; transition:all 0.2s; font-family:'Nunito',sans-serif; }
+  .ankit-quick-btn:hover { background:rgba(142,84,233,0.4); border-color:#8e54e9; color:white; }
+  #ankit-input-area { padding:14px 16px; background:rgba(0,0,0,0.3); display:flex; gap:10px; align-items:center; border-top:1px solid rgba(255,255,255,0.1); }
+  #ankit-input { flex:1; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:12px 16px; border-radius:25px; font-size:14px; outline:none; font-family:'Nunito',sans-serif; }
+  #ankit-input::placeholder { color:rgba(255,255,255,0.4); }
+  #ankit-input:focus { border-color:#8e54e9; }
+  #ankit-send-btn { background:linear-gradient(135deg,#4776e6,#8e54e9); border:none; color:white; width:46px; height:46px; border-radius:50%; font-size:18px; cursor:pointer; transition:transform 0.2s; display:flex; align-items:center; justify-content:center; }
+  #ankit-send-btn:hover { transform:scale(1.1); }
+  #ankit-send-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+  .subjects-bar { background:rgba(0,0,0,0.2); padding:8px 20px; font-size:11px; color:rgba(255,255,255,0.4); text-align:center; }
+</style>
+
+<div id="ankit-chat-wrapper">
+  <div id="ankit-chat-header">
+    <div class="robot-icon">🤖</div>
+    <div class="header-text">
+      <h2>Ankit Study AI Assistant</h2>
+      <p><span id="ankit-status-dot"></span>D Pharmacy • Online</p>
+    </div>
+  </div>
+  <div class="subjects-bar">📚 Pharmaceutics • Pharmacology • Pharmacognosy • Anatomy • Social Pharmacy • Pharm. Chemistry</div>
+  <div id="ankit-chat-box"></div>
+  <div id="ankit-quick-btns">
+    <button class="ankit-quick-btn" onclick="ankitQuick('What are haematinics?')">💊 Haematinics</button>
+    <button class="ankit-quick-btn" onclick="ankitQuick('Stages of tablet coating')">💊 Tablet Coating</button>
+    <button class="ankit-quick-btn" onclick="ankitQuick('What is limit test?')">🧪 Limit Test</button>
+    <button class="ankit-quick-btn" onclick="ankitQuick('Types of diuretics')">💉 Diuretics</button>
+    <button class="ankit-quick-btn" onclick="ankitQuick('Antifungal drugs list')">🦠 Antifungals</button>
+  </div>
+  <div id="ankit-input-area">
+    <input id="ankit-input" type="text" placeholder="D Pharmacy ka koi bhi sawaal pucho..." />
+    <button id="ankit-send-btn" onclick="ankitSend()">➤</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  var K = "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";
+  var chatHistory = [];
+  var isLoading = false;
+  var SYSTEM_PROMPT = "You are Ankit Study AI Assistant — a smart, friendly tutor for D.Pharmacy students in India. Subjects: Pharmaceutics, Pharmacology, Pharmacognosy, Human Anatomy & Physiology, Social Pharmacy, Pharmaceutical Chemistry. Answer in simple Hinglish or English. Give exam-focused bullet point answers. Bold key terms with **term**. Keep answers under 300 words.";
+
+  function addMsg(text, isUser) {
+    var box = document.getElementById('ankit-chat-box');
+    var div = document.createElement('div');
+    div.className = 'ankit-msg ' + (isUser ? 'user' : 'ai');
+    var label = document.createElement('div');
+    label.className = 'msg-label';
+    label.textContent = isUser ? '👤 Tum' : '🤖 AI';
+    div.appendChild(label);
+    var content = document.createElement('div');
+    content.innerHTML = text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+    div.appendChild(content);
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function addTyping() {
+    var box = document.getElementById('ankit-chat-box');
+    var div = document.createElement('div');
+    div.className = 'ankit-msg ai';
+    div.id = 'ankit-typing';
+    var label = document.createElement('div');
+    label.className = 'msg-label';
+    label.textContent = '🤖 AI';
+    div.appendChild(label);
+    var dots = document.createElement('div');
+    dots.className = 'typing-dots';
+    dots.innerHTML = '<span></span><span></span><span></span>';
+    div.appendChild(dots);
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function removeTyping() {
+    var t = document.getElementById('ankit-typing');
+    if (t) t.remove();
+  }
+
+  async function callAI(userMsg) {
+    var messages = [{ role: "system", content: SYSTEM_PROMPT }];
+    var recent = chatHistory.slice(-8);
+    for (var i = 0; i < recent.length; i++) messages.push(recent[i]);
+    messages.push({ role: "user", content: userMsg });
+
+    var response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + K,
+        "HTTP-Referer": "https://blogger.com",
+        "X-Title": "Ankit Study AI"
+      },
+      body: JSON.stringify({
+        model: "meta-llama/llama-3.1-8b-instruct:free",
+        messages: messages,
+        max_tokens: 800,
+        temperature: 0.7
+      })
+    });
+
+    var data = await response.json();
+    if (!response.ok) throw new Error(JSON.stringify(data.error || data));
+    if (!data.choices || !data.choices[0]) throw new Error("Response nahi mila");
+    return data.choices[0].message.content;
+  }
+
+  window.ankitSend = async function() {
+    if (isLoading) return;
+    var input = document.getElementById('ankit-input');
+    var msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    isLoading = true;
+    document.getElementById('ankit-send-btn').disabled = true;
+    addMsg(msg, true);
+    addTyping();
+    try {
+      var reply = await callAI(msg);
+      removeTyping();
+      addMsg(reply, false);
+      chatHistory.push({ role: "user", content: msg });
+      chatHistory.push({ role: "assistant", content: reply });
+      if (chatHistory.length > 16) chatHistory = chatHistory.slice(-16);
+    } catch(e) {
+      removeTyping();
+      addMsg("❌ Error: " + e.message, false);
+    }
+    isLoading = false;
+    document.getElementById('ankit-send-btn').disabled = false;
+    input.focus();
+  };
+
+  window.ankitQuick = function(q) {
+    document.getElementById('ankit-input').value = q;
+    ankitSend();
+  };
+
+  document.getElementById('ankit-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') ankitSend();
+  });
+
+  setTimeout(function() {
+    addMsg("Hello! 👋 Main hoon **Ankit Study AI** — tumhara D.Pharmacy exam helper!\n\nKoi bhi sawaal pucho — main yahan hoon! 📚\n\n💡 Neeche quick buttons bhi try karo!", false);
+  }, 400);
+})();
+</script>
